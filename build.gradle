@@ -1,0 +1,48 @@
+/*
+ * The gradle wrapper generation.
+ */
+task wrapper(type:Wrapper) {
+  gradleVersion = '1.8'
+}
+
+/*
+ * The packages definitions.
+ */
+def jars=[
+  [source: 'pool/bncloudapi.jar',   target: 'bncloudapi', classifier: null, extension: 'jar', version: null],
+  [source: 'pool/bn-framework.jar', target: 'framework',  classifier: null, extension: 'jar', version: null],
+  [source: 'pool/bn-video.jar',     target: 'video',      classifier: null, extension: 'jar', version: null],
+  [source: 'pool/com.bn.cloud.jar', target: 'cloud',      classifier: null, extension: 'jar', version: null],
+  [source: 'pool/com.nook.cabc.jar',target: 'cabc',       classifier: null, extension: 'jar', version: null],
+  [source: 'pool/com.nook.vod.jar', target: 'vod',        classifier: null, extension: 'jar', version: null],
+  [source: 'pool/com.bn.authentication.acctmgr.jar', target: 'auth-acctmgr',  classifier: null, extension: 'jar', version: null],
+  [source: 'pool/com.bn.authentication.jar',         target: 'auth',          classifier: null, extension: 'jar', version: null],
+  [source: 'pool/com.bn.provider.utils.jar',         target: 'provider-utils',classifier: null, extension: 'jar', version: null]
+]
+
+apply plugin: 'maven-publish'
+
+publishing {
+  publications {
+    jars.each { jar ->
+      "${jar.target}"(MavenPublication) {
+        artifactId  jar.target
+        groupId     project.groupId
+        version     jar.version ?: project.version
+        artifact source: file(relativePath(jar.source)), classifier: jar.classifier, extension: jar.extension
+      }
+    }
+    repositories.maven {
+      credentials {
+        username NOOKREPO_DEPLOYMENT_USERNAME
+        password NOOKREPO_DEPLOYMENT_PASSWORD
+      }
+      if(version.endsWith('-SNAPSHOT')){
+        url NOOKREPO_DEPLOYMENT_URL + "/snapshots"
+      } else {
+        url NOOKREPO_DEPLOYMENT_URL + "/releases"
+      }
+    }
+  }
+}
+
