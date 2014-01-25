@@ -9,15 +9,16 @@ task wrapper(type:Wrapper) {
  * The packages definitions.
  */
 def jars=[
-  [source: 'pool/bncloudapi.jar',   target: 'bncloudapi', classifier: null, extension: 'jar', version: null],
-  [source: 'pool/bn-framework.jar', target: 'framework',  classifier: null, extension: 'jar', version: null],
-  [source: 'pool/bn-video.jar',     target: 'video',      classifier: null, extension: 'jar', version: null],
-  [source: 'pool/com.bn.cloud.jar', target: 'cloud',      classifier: null, extension: 'jar', version: null],
-  [source: 'pool/com.nook.cabc.jar',target: 'cabc',       classifier: null, extension: 'jar', version: null],
-  [source: 'pool/com.nook.vod.jar', target: 'vod',        classifier: null, extension: 'jar', version: null],
-  [source: 'pool/com.bn.authentication.acctmgr.jar', target: 'auth-acctmgr',  classifier: null, extension: 'jar', version: null],
-  [source: 'pool/com.bn.authentication.jar',         target: 'auth',          classifier: null, extension: 'jar', version: null],
-  [source: 'pool/com.bn.provider.utils.jar',         target: 'provider-utils',classifier: null, extension: 'jar', version: null]
+  [source: 'pool/bncloudapi.jar',   target: 'bncloudapi',    classifier: null, extension: 'jar', version: null],
+  [source: 'pool/bn-framework.jar', target: 'bn-framework',  classifier: null, extension: 'jar', version: null],
+  [source: 'pool/bn-video.jar',     target: 'bn-video',      classifier: null, extension: 'jar', version: null],
+  [source: 'pool/com.bn.cloud.jar', target: 'bn-cloud',      classifier: null, extension: 'jar', version: null],
+  [source: 'pool/com.nook.cabc.jar',target: 'nook-cabc',     classifier: null, extension: 'jar', version: null],
+  [source: 'pool/com.nook.vod.jar', target: 'nook-vod',      classifier: null, extension: 'jar', version: null],
+  [source: 'pool/com.bn.authentication.acctmgr.jar', target: 'bn-authentication-acctmgr',  classifier: null, extension: 'jar', version: null],
+  [source: 'pool/com.bn.authentication.jar',         target: 'bn-authentication',          classifier: null, extension: 'jar', version: null],
+  [source: 'pool/com.bn.provider.utils.jar',         target: 'bn-provider-utils',          classifier: null, extension: 'jar', version: null]
+  //[source: 'pool/rdge_nook.jar',         target: 'rdge-nook',classifier: null, extension: 'jar', version: null]
 ]
 
 apply plugin: 'maven-publish'
