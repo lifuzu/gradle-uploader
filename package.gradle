@@ -1,0 +1,12 @@
+/*
+ * The packages definitions.
+ */
+ext.packages=[
+  [source: 'pool/android.jar', target: 'android',  classifier: null, extension: 'jar', version: '1.0.0.0', group: 'com.nook'],
+]
+
+/*
+ * The remote repository which package goes.
+ * [thirdparty|releases|snapshots]
+ */
+ext.repository='thirdparty'

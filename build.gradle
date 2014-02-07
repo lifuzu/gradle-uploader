@@ -2,35 +2,20 @@
  * The gradle wrapper generation.
  */
 task wrapper(type:Wrapper) {
-  gradleVersion = '1.8'
+  gradleVersion = '1.10'
 }
 
-/*
- * The packages definitions.
- */
-def jars=[
-  [source: 'pool/bncloudapi.jar',   target: 'bncloudapi',    classifier: null, extension: 'jar', version: null],
-  [source: 'pool/bn-framework.jar', target: 'bn-framework',  classifier: null, extension: 'jar', version: null],
-  [source: 'pool/bn-video.jar',     target: 'bn-video',      classifier: null, extension: 'jar', version: null],
-  [source: 'pool/com.bn.cloud.jar', target: 'bn-cloud',      classifier: null, extension: 'jar', version: null],
-  [source: 'pool/com.nook.cabc.jar',target: 'nook-cabc',     classifier: null, extension: 'jar', version: null],
-  [source: 'pool/com.nook.vod.jar', target: 'nook-vod',      classifier: null, extension: 'jar', version: null],
-  [source: 'pool/com.bn.authentication.acctmgr.jar', target: 'bn-authentication-acctmgr',  classifier: null, extension: 'jar', version: null],
-  [source: 'pool/com.bn.authentication.jar',         target: 'bn-authentication',          classifier: null, extension: 'jar', version: null],
-  [source: 'pool/com.bn.provider.utils.jar',         target: 'bn-provider-utils',          classifier: null, extension: 'jar', version: null]
-  //[source: 'pool/rdge_nook.jar',         target: 'rdge-nook',classifier: null, extension: 'jar', version: null]
-]
-
+apply from: 'package.gradle'
 apply plugin: 'maven-publish'
 
 publishing {
   publications {
-    jars.each { jar ->
-      "${jar.target}"(MavenPublication) {
-        artifactId  jar.target
-        groupId     project.groupId
-        version     jar.version ?: project.version
-        artifact source: file(relativePath(jar.source)), classifier: jar.classifier, extension: jar.extension
+    packages.each { pkg ->
+      "${pkg.target}"(MavenPublication) {
+        artifactId  pkg.target
+        groupId     pkg.group ?: project.groupId
+        version     pkg.version ?: project.version
+        artifact source: file(relativePath(pkg.source)), classifier: pkg.classifier, extension: pkg.extension
       }
     }
     repositories.maven {
@@ -38,10 +23,14 @@ publishing {
         username NOOKREPO_DEPLOYMENT_USERNAME
         password NOOKREPO_DEPLOYMENT_PASSWORD
       }
-      if(version.endsWith('-SNAPSHOT')){
-        url NOOKREPO_DEPLOYMENT_URL + "/snapshots"
+      if ( repository.equals('thirdparty') ) {
+        url NOOKREPO_DEPLOYMENT_URL + "/thirdparty"
       } else {
-        url NOOKREPO_DEPLOYMENT_URL + "/releases"
+        if(version.endsWith('-SNAPSHOT')){
+          url NOOKREPO_DEPLOYMENT_URL + "/snapshots"
+        } else {
+          url NOOKREPO_DEPLOYMENT_URL + "/releases"
+        }
       }
     }
   }
