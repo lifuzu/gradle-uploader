@@ -1,4 +1,13 @@
 /*
+ * # Write the following settings to ~/.gradle/gradle.properties
+ *
+ * REPO_DEPLOYMENT_USERNAME=deployment
+ * REPO_DEPLOYMENT_PASSWORD=deployment123
+ * REPO_DEPLOYMENT_URL=http://dns-of-server:8081/nexus/content/repositories
+ *
+ */
+
+/*
  * The gradle wrapper generation.
  */
 task wrapper(type:Wrapper) {
@@ -20,16 +29,16 @@ publishing {
     }
     repositories.maven {
       credentials {
-        username NOOKREPO_DEPLOYMENT_USERNAME
-        password NOOKREPO_DEPLOYMENT_PASSWORD
+        username REPO_DEPLOYMENT_USERNAME
+        password REPO_DEPLOYMENT_PASSWORD
       }
       if ( repository.equals('thirdparty') ) {
-        url NOOKREPO_DEPLOYMENT_URL + "/thirdparty"
+        url REPO_DEPLOYMENT_URL + "/thirdparty"
       } else {
         if(version.endsWith('-SNAPSHOT')){
-          url NOOKREPO_DEPLOYMENT_URL + "/snapshots"
+          url REPO_DEPLOYMENT_URL + "/snapshots"
         } else {
-          url NOOKREPO_DEPLOYMENT_URL + "/releases"
+          url REPO_DEPLOYMENT_URL + "/releases"
         }
       }
     }
